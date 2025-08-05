@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>UX Researcher Persona Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    h1 { color: #333; }
+    .question { margin-bottom: 1.5em; }
+    .result { margin-top: 2em; padding: 1em; border: 1px solid #ccc; background: #f9f9f9; display: none; }
+  </style>
+</head>
+<body>
+  <h1>What Kind of Business-Aligned UX Researcher Are You?</h1>
+  <form id="quizForm">
+    <div class="question">
+      <p>1. When kicking off a project, your first instinct is to:</p>
+      <label><input type="radio" name="q1" value="A"> Clarify the business goals and success metrics</label><br>
+      <label><input type="radio" name="q1" value="B"> Talk to users to uncover unmet needs</label><br>
+      <label><input type="radio" name="q1" value="C"> Map out the research plan and timeline</label><br>
+      <label><input type="radio" name="q1" value="D"> Ask stakeholders what decisions they need to make</label>
+    </div>
+    <div class="question">
+      <p>2. Your favorite kind of stakeholder meeting is:</p>
+      <label><input type="radio" name="q2" value="A"> A strategy session with product or marketing leads</label><br>
+      <label><input type="radio" name="q2" value="B"> A design critique where you can advocate for users</label><br>
+      <label><input type="radio" name="q2" value="C"> A sprint planning meeting to align on deliverables</label><br>
+      <label><input type="radio" name="q2" value="D"> A discovery workshop where everyone shares context</label>
+    </div>
+    <div class="question">
+      <p>3. When presenting research, you tend to:</p>
+      <label><input type="radio" name="q3" value="A"> Highlight how findings impact KPIs or OKRs</label><br>
+      <label><input type="radio" name="q3" value="B"> Tell compelling user stories</label><br>
+      <label><input type="radio" name="q3" value="C"> Share detailed methods and data</label><br>
+      <label><input type="radio" name="q3" value="D"> Facilitate a discussion to co-interpret insights</label>
+    </div>
+    <div class="question">
+      <p>4. Your biggest research superpower is:</p>
+      <label><input type="radio" name="q4" value="A"> Translating insights into business value</label><br>
+      <label><input type="radio" name="q4" value="B"> Building empathy through storytelling</label><br>
+      <label><input type="radio" name="q4" value="C"> Designing rigorous, reliable studies</label><br>
+      <label><input type="radio" name="q4" value="D"> Getting cross-functional buy-in</label>
+    </div>
+    <div class="question">
+      <p>5. You feel most successful when:</p>
+      <label><input type="radio" name="q5" value="A"> A business decision is clearly influenced by your research</label><br>
+      <label><input type="radio" name="q5" value="B"> A user quote changes someone’s mind</label><br>
+      <label><input type="radio" name="q5" value="C"> Your findings are implemented exactly as tested</label><br>
+      <label><input type="radio" name="q5" value="D"> A team member says, “I never thought of it that way!”</label>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="result" id="resultBox"></div>
+
+  <script>
+    const personas = {
+      A: {
+        title: "The Strategist",
+        description: "You’re laser-focused on aligning research with business outcomes. You speak the language of ROI, OKRs, and product-market fit.",
+        genre: "Classical – Structured and strategic",
+        tools: "Dashboards, KPI tracking, business-aligned briefs",
+        role: "Business translator and strategic advisor",
+        song: "<a href='https://www.accuradio.com/classical-relaxation/' target='_blank'>Clair de Lune – Debussy</a>"
+      },
+      B: {
+        title: "The Advocate",
+        description: "You champion the user’s voice and bring empathy to the table. You’re the conscience of the product team.",
+        genre: "Indie Folk – Authentic and user-centered",
+        tools: "User interviews, storytelling decks, empathy maps",
+        role: "User champion and emotional connector",
+        song: "<a href='https://www.jamendo.com/genre/folk' target='_blank'>Home – Edward Sharpe & The Magnetic Zeros</a>"
+      },
+      C: {
+        title: "The Technician",
+        description: "You’re methodical and precise. You ensure research is credible, replicable, and respected.",
+        genre: "Electronic – Data-driven and systematic",
+        tools: "Surveys, analytics, usability testing platforms",
+        role: "Method expert and quality guardian",
+        song: "<a href='https://www.jamendo.com/genre/electronic' target='_blank'>Midnight City – M83</a>"
+      },
+      D: {
+        title: "The Facilitator",
+        description: "You thrive on collaboration and co-creation. You bring people together to make sense of complexity.",
+        genre: "Jazz – Improvisational and collaborative",
+        tools: "Workshops, co-creation sessions, Miro boards",
+        role: "Connector and sense-maker",
+        song: "<a href='https://www.accuradio.com/jazz/' target='_blank'>Take Five – Dave Brubeck</a>"
+      }
+    };
+
+    document.getElementById("quizForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const answers = ["q1", "q2", "q3", "q4", "q5"].map(q => {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        return selected ? selected.value : null;
+      });
+
+      if (answers.includes(null)) {
+        alert("Please answer all questions.");
+        return;
+      }
+
+      const counts = { A: 0, B: 0, C: 0, D: 0 };
+      answers.forEach(a => counts[a]++);
+
+      const top = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+      const p = personas[top];
+
+      const resultBox = document.getElementById("resultBox");
+      resultBox.innerHTML = `
+        <h2>${p.title}</h2>
+        <p><strong>Description:</strong> ${p.description}</p>
+        <p><strong>Research Style:</strong> ${p.genre}</p>
+        <p><strong>Tools:</strong> ${p.tools}</p>
+        <p><strong>Role:</strong> ${p.role}</p>
+        <p><strong>Song Recommendation:</strong> ${p.song}</p>
+      `;
+      resultBox.style.display = "block";
+      resultBox.scrollIntoView({ behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
